@@ -21,8 +21,8 @@ spec:
     spec:
       initContainers:
       - name: "init-volume"
-        image: "eos-node:latest"
-        imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command:  ["nodeos", "--data-dir","/opt/eosio/bin/data-dir", "--config-dir", "/opt/eosio/bin/data-dir", ",--genesis-json" ,"/opt/eosio/bin/data-dir/genesis.json"]
         volumeMounts:
         - name: data
@@ -37,7 +37,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: ["nodeos", "--data-dir", "/opt/eosio/bin/data-dir", "--config-dir", "/opt/eosio/bin/data-dir" ]
           ports:
             - name: port-8888
