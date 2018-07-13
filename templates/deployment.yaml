@@ -21,9 +21,9 @@ spec:
     spec:
       initContainers:
       - name: "init-volume"
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.initimage.repository }}:{{ .Values.initimage.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command:  ["nodeos", "--data-dir","/opt/eosio/bin/data-dir", "--config-dir", "/opt/eosio/bin/data-dir", ",--genesis-json" ,"/opt/eosio/bin/data-dir/genesis.json"]
+        command:  ["/data/setup-state.sh"]
         volumeMounts:
         - name: data
           mountPath: /opt/eosio/bin/data-dir

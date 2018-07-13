@@ -4,6 +4,12 @@
 
 replicaCount: 1
 
+initimage:
+  repository: leolower/eos
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
 image:
   repository: eosio/eos
   tag: latest
