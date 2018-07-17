@@ -5,7 +5,7 @@
 replicaCount: 1
 
 initimage:
-  repository: leolower/eos
+  repository: Santiment/eos
   tag: latest
   pullPolicy: IfNotPresent
 
