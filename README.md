@@ -7,7 +7,7 @@ infrastructure for descentralized applications.
 
 ## For further information visit:  
 
-	https://eos.io/faq
+	[https://eos.io/faq](https://eos.io/faq)
 
 ## Chart Details
 
