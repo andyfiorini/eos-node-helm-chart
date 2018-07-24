@@ -82,4 +82,7 @@ spec:
           claimName: {{ .Values.persistence.existingClaim | default (include "eos-node.fullname" .) }}
       {{- else }}
         emptyDir: {}
-      {{- end -}}
+      {{- end }}
+      - name: configuration
+        configMap:
+          name: configmap
