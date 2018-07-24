@@ -25,6 +25,8 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command:  ["/data/setup-state.sh"]
         volumeMounts:
+        - name: configuration
+          mountPath: /opt/eosio/bin/data-dir/config/
         - name: data
           mountPath: /opt/eosio/bin/data-dir
           {{- if .Values.persistence.subPath }}
@@ -38,7 +40,15 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-          command: ["nodeos", "--data-dir", "/opt/eosio/bin/data-dir", "--config-dir", "/opt/eosio/bin/data-dir" ]
+          command: ['nodeos', '--data-dir', '/opt/eosio/bin/data-dir', '--config-dir', '/opt/eosio/bin/data-dir/config' ]
+          volumeMounts:
+          - name: configuration
+            mountPath: /opt/eosio/bin/data-dir/config/
+          - name: data
+            mountPath: /opt/eosio/bin/data-dir
+            {{- if .Values.persistence.subPath }}
+            subPath: {{ .Values.persistence.subPath }}
+            {{- end }}
           ports:
             - name: port-8888
               containerPort: 8888
@@ -46,16 +56,6 @@ spec:
             - name: port-9876
               containerPort: 9876
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /v1/chain/get_info 
-              port: 8888
-              scheme: HTTP
-          readinessProbe:
-            httpGet:
-              path: /v1/chain/get_info 
-              port: 8888
-              scheme: HTTP
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
@@ -72,6 +72,10 @@ spec:
     {{- end }}
 
       volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: "8192Mi"
       - name: data
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
