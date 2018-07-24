@@ -40,7 +40,7 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-          command: ['nodeos', '--data-dir', '/opt/eosio/bin/data-dir', '--config-dir', '/opt/eosio/bin/data-dir/config' ]
+          command: ['nodeos', '--data-dir', '/opt/eosio/bin/data-dir', '--config-dir', '/opt/eosio/bin/data-dir/config', "--replay-blockchain" , "--hard-replay-blockchain" ]
           volumeMounts:
           - name: configuration
             mountPath: /opt/eosio/bin/data-dir/config/
